@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veracross Graph</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One">
+    <link rel="stylesheet" href="/static/css/error.css">
+    <link rel="stylesheet" href="/static/css/Navigation-Clean.css">
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-default navigation-clean">
+            <div class="container">
+                <div class="navbar-header"><a class="navbar-brand" href="/login">Veracross Graph</a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row" style="height:90vh;">
+            <div class="col-md-12 vertical-align">
+                <div class="error-div">
+                    <h1 class="error-text">An error has occured.</h1>
+                    <p class="error-message">{{ error }}</p>
+                    <a class="btn btn-primary btn-block" role="button" href="/login" style="margin-top:15px;">Try Again</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

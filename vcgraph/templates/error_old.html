@@ -1,0 +1,68 @@
+$def with (error, username=None, time=None)
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <style>
+      body {
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+      }
+      .text {
+        margin: 5px;
+        width: 100%;
+        font-family: 'Roboto';
+        font-size: 92px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+      }
+      button {
+        cursor: pointer;
+        background: none;
+        border: 2px solid white;
+        color :white;
+        border-radius: 5px;
+        margin:5px;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body style="height: auto; min-height: 500px; background-color: #2196F3;">
+    <div style="padding-top: 20%;">
+      <div class="text" style="margin-bottom:13px;">Oops!</div>
+      $if error == "login":
+          <div class="text" style="font-size: 18px;">looks like you typed in your username or password incorrectly</div>
+          <form method="GET" action="login" style="text-align:center;padding:10px;">
+              <button type="submit">Try Again</button>
+          </form>
+      $elif error == "username":
+          <div class="text" style="font-size: 18px;">looks like you typed your username incorrectly</div>
+          <div class="text" style="font-size: 18px;">remember to use the same username as veracross does (e.g. jpackard18)</div>
+          <form method="GET" action="login" style="text-align:center;padding:10px;">
+              <button type="submit">Try Again</button>
+          </form>
+      $elif error == "traceback_unknown":
+          <div class="text" style="font-size: 18px;">we couldn't find your error</div>
+          <form method="GET" action="login" style="text-align:center;padding:10px;">
+              <button type="submit">Home</button>
+          </form>
+      $elif error == "existing":
+           <div class="text" style="font-size: 18px;">an unknown error has occurred, but the developer is already aware and working on the problem</div>
+           <form method="GET" action="login" style="text-align:center;padding:10px;">
+              <button type="submit">Try Again</button>
+          </form>
+      $else:
+          <div class="text" style="font-size: 18px;">an unknown error has occurred...</div>
+          <form method="POST" action="error" style="text-align:center;padding:10px;">
+              <input type="hidden" name="username" value="$username">
+              <input type="hidden" name="time" value="$time">
+              <button type="submit" name="action" value="mail">Notify the Developer</button>
+              <button type="submit" name="action" value="remove">Pretend it Never Happened</button>
+          </form>
+    </div>
+  </body>
+</html>

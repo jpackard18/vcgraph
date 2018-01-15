@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veracross Graph</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
+    <link rel="stylesheet" href="/static/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="/static/css/veracross.css">
+    <script src="/static/js/projections.js"></script>
+    <script type="text/javascript">
+        function resizeIframe(obj) {
+            obj.style.height = (obj.contentWindow.document.body.scrollHeight + 40) + 'px';
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-default navigation-clean">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand">Veracross Graph<span style="font-weight:100;margin-left:5px;">Beta</span></a>
+                    <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div
+                    class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li role="presentation"><a href="/login">Log Out / Select Quarter</a></li>
+                    </ul>
+            </div>
+    </div>
+    </nav>
+    </div>
+    <div class="container">
+        <div class="row gpa-row vc-section" id="gpa-row">
+            <div class="col-md-12"><span class="gpa-title">GPA This Quarter: </span><span class="gpa-content">{{ veracross.gpa }}</span>
+                {% if veracross.gpa_errors %}
+                <div id="gpa-disclaimer" class="gpa-disclaimer">
+                    {% for course in veracross.gpa_errors %}
+                    <p>{{ course.name }} course level undetermined</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row vc-section">
+            <div class="col-md-12">
+                <div>
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active"><a href="#graph-tab" role="tab" data-toggle="tab">Graph </a></li>
+                        {% if veracross.nti_assignments %}
+                        <li><a href="#missing" role="tab" data-toggle="tab">Missing Assignments</a></li>
+                        {% endif %}
+                        {% if veracross.projections %}
+                        <li><a href="#projections" role="tab" data-toggle="tab">Projections </a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" role="tabpanel" id="graph-tab">
+                            <div id="fs-panel">
+                                <button id="fs-button" class="btn btn-default fs-button" type="button">
+                                    Full Screen
+                                </button>
+                                <div id="graph" class="js-plotly-plot" style="width:100%;"></div>
+                            </div>
+                        </div>
+                        {% if veracross.nti_assignments %}
+                        <div class="tab-pane fade" role="tabpanel" id="missing">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject </th>
+                                            <th>Assignment </th>
+                                            <th>Due Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for assignment in veracross.nti_assignments %}
+                                        <tr>
+                                            <td>{{ assignment.course }}</td>
+                                            <td>{{ assignment.name }}</td>
+                                            <td>{{ assignment.due_date }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if veracross.projections %}
+                        <div class="tab-pane fade" role="tabpanel" id="projections">
+                            {% for projection in veracross.projections %}
+                            <div class="row" id="projection-{{ forloop.counter0 }}">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">{{ projection.course.name }}</h3>
+                                            <select class="grade-select" title="Desired Grade" onchange="updateTargetScore({{ projection.js_function|safe }}, document.getElementById('projection-{{ forloop.counter0 }}'))">
+                                                <option value=97>A+</option>
+                                                <option value=93 selected>A</option>
+                                                <option value=90>A-</option>
+                                                <option value=87>B+</option>
+                                                <option value=83>B</option>
+                                                <option value=80>B-</option>
+                                                <option value=77>C+</option>
+                                                <option value=73>C</option>
+                                                <option value=71>C-</option>
+                                                <option value=70>D</option>
+                                            </select>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Assignment </th>
+                                                            <th>Due Date</th>
+                                                            <th>Target Score</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if projection.course.is_weighted %}
+                                                        {% for category in projection.categories %}
+                                                        {% for assignment in category.upcoming %}
+                                                        <tr>
+                                                            <td>{{ assignment.name }}</td>
+                                                            <td>{{ assignment.due_date }}</td>
+                                                            <td class="projection-target">Loading...</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endfor %}
+                                                        {% else %}
+                                                        {% for assignment in projection.assignments %}
+                                                        <tr>
+                                                            <td>{{ assignment.name }}</td>
+                                                            <td>{{ assignment.due_date }}</td>
+                                                            <td class="projection-target">Loading...</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                updateTargetScore({{ projection.js_preset|safe }}, document.getElementById('projection-{{ forloop.counter0 }}'));
+                            </script>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row vc-section">
+            <div class="col-md-12">
+                <div>
+                    <ul class="nav nav-tabs nav-justified">
+                        {% for course in veracross.courses %}
+                        {% if forloop.counter == 1 %}
+                        <li class="active"><a href="#course-{{ forloop.counter }}" role="tab" data-toggle="tab">{{ course.name }}</a></li>
+                        {% else %}
+                        <li><a href="#course-{{ forloop.counter }}" role="tab" data-toggle="tab">{{ course.name }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content">
+                        {% for course in veracross.courses %}
+                        {% if forloop.counter == 1 %}
+                        <div class="tab-pane fade in active" role="tabpanel" id="course-{{ forloop.counter }}">
+                            <iframe srcdoc="{{ course.formatted_gd|escape|safe }}" style="width:100%;" onload="resizeIframe(this)"></iframe>
+                        </div>
+                        {% else %}
+                        <div class="tab-pane fade" role="tabpanel" id="course-{{ forloop.counter }}">
+                            <iframe srcdoc="{{ course.formatted_gd|escape|safe }}" style="width:100%;" onload="resizeIframe(this)"></iframe>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        graphData = {{ graph_data|safe }};
+    </script>
+    <script src="/static/js/veracross.js"></script>
+    <script src="/static/js/touchscreen-patch.js"></script>
+</body>
+
+</html>

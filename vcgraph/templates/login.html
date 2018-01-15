@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Veracross Graph</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
+    <link rel="stylesheet" href="/static/css/styles.min.css">
+    <link rel="stylesheet" href="/static/css/spinkit.css">
+    <link rel="stylesheet" href="/static/css/3-wave.css">
+</head>
+
+<body style="background:url({{ image }});background-size:cover;background-repeat:no-repeat;background-attachment:fixed;padding:30px;">
+    <div class="login-dark">
+        <form action="/veracross/" method="post" style="box-shadow:0px 5px 10px rgb(18,18,18);" onsubmit="loadingAction()">
+            {% csrf_token %}
+            <div class="illustration"><img src="/static/img/home-logo.png" style="width:75%;"></div>
+            <div id="form-inputs">
+                <div class="form-group">
+                    <input class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="quarter" style="color:rgb(153,153,153);">
+                        {% for quarter in quarters %}:
+                            <option value="{{ forloop.counter }}" {{ quarter.3 }}>{{ quarter.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                </div>
+            </div>
+            <div class="sk-wave" id="loading-icon" style="display:none;">
+                <div class="sk-rect sk-rect1"></div>
+                <div class="sk-rect sk-rect2"></div>
+                <div class="sk-rect sk-rect3"></div>
+                <div class="sk-rect sk-rect4"></div>
+                <div class="sk-rect sk-rect5"></div>
+            </div>
+            <em style="font-size:12px;opacity:.5;position:absolute;bottom:8px;right:12px;color:white;">January 2018</em>
+        </form>
+    </div>
+    <em style="font-size:12px;opacity:.8;position:fixed;bottom:8px;right:12px;color:white;z-index:-1;">Photos by Nikhil Patel '18</em>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/login.js"></script>
+</body>
+
+</html>

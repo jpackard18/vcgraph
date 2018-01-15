@@ -1,0 +1,48 @@
+$def with (message)
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <style>
+      body {
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+      }
+      .text {
+        margin: 5px;
+        width: 100%;
+        font-family: 'Roboto';
+        font-size: 92px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+      }
+      button, input[type=submit] {
+        cursor: pointer;
+        background: none;
+        border: 2px solid white;
+        color :white;
+        border-radius: 5px;
+        margin:5px;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body style="height: auto; min-height: 500px; background-color: #2196F3;">
+    <div style="padding-top: 20%;">
+      <div class="text">Success!</div>
+      $if message == "traceback_removed":
+          <div class="text" style="font-size: 18px;">the error has been removed from our logs</div>
+      $elif message == "traceback_mailed":
+          <div class="text" style="font-size: 18px;">your error has been sent, and you should hear back from the developer shortly via email from jpackard18@stjohnsprep.org</div>
+      $else:
+          <div class="text" style="font-size: 18px;">message</div>
+      <form method="GET" action="login" style="text-align:center;padding:10px;">
+          <button type="submit">Home</button>
+      </form>
+    </div>
+  </body>
+</html>

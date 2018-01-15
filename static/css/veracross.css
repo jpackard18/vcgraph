@@ -1,0 +1,81 @@
+body {
+  min-width:500px;
+}
+
+.vc-section {
+  border:1px solid #e7e7e7;
+  margin:15px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 5px 10px rgb(239,239,239);
+}
+
+.gpa-title {
+  margin-right:5px;
+}
+
+.gpa-content {
+  font-style:italic;
+  font-weight:600;
+}
+
+.gpa-row {
+  font-size:16px;
+}
+
+.gpa-disclaimer {
+  font-size:14px;
+  margin-top:5px;
+  color:rgb(255,48,20);
+}
+
+.gpa-disclaimer p {
+  margin-bottom:0;
+}
+
+.tab-pane {
+  border:1px solid #e7e7e7;
+  border-top:none;
+  padding:20px;
+}
+
+th {
+  text-align:center;
+}
+
+.grade-select {
+  position:absolute;
+  top:8px;
+  right:25px;
+}
+
+iframe {
+  width:100%;
+  max-width:100%;
+  border:none;
+  overflow-x:scroll;
+}
+
+.fullscreen {
+  position:fixed;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  z-index:100;
+}
+
+.fs-button {
+  position:absolute;
+  bottom:10px;
+  right:25px;
+  z-index:200;
+}
+
+.js-plotly-plot {
+  height:70vh;
+}
+
+.fullscreen > .js-plotly-plot {
+  height:100%;
+}
