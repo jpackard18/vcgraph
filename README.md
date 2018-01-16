@@ -28,7 +28,12 @@ Create the database file and a superuser account with the following three comman
 (vcgraphenv) $ python manage.py migrate
 (vcgraphenv) $ python manage.py createsuperuser
 ```
-After entering a username and password, you can finally run the server by typing
+After entering a username and password, use the following command to generate a random secret key
+```
+(vcgraphenv) $ python -c "import random; print(''.join(random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789! @#$%^&*(-_=+)'.replace(' ','')) for i in range(50)))"
+```
+This will create a 50 character long random string that you must set as the value of SECRET_KEY in [vcgraph/settings.py](https://github.com/jpackard18/vcgraph/blob/master/vcgraph/settings.py#L23).
+Finally, you can run the server by typing
 ```
 (vcgraphenv) $ python manage.py runserver
 ```
@@ -126,3 +131,5 @@ $ sudo service apache2 reload
 ## Acknowledgments
 * Brandon Li '17 - GPA Calculation, Contacting the school - [Strikingly](http://brandonli.strikingly.com)
 * Nikhil Patel '18 - Brilliant Login Page Photos - [Photography](https://npatelphotography.myportfolio.com)
+* Saint John's Prep - [Website](https://www.stjohnsprep.org)
+* Veracross - [Website](https://www.veracross.com)
