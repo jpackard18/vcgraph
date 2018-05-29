@@ -15,7 +15,7 @@ These instructions will help you set up a working copy of Veracross Graph on you
 Enter your vcgraph directory and create & activate your Python virtual environment
 ```
 $ cd path/to/vcgraph
-$ python -m venv vcgraphenv
+$ python3 -m venv vcgraphenv
 $ source vcgraphenv/bin/activate
 ```
 Once the virtual environment has been created, install the necessary packages
